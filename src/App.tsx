@@ -1,11 +1,12 @@
-import Registeration from './components/Registeration.tsx'
+import Registeration from './components/registration/Registeration'
+import Login from './components/login/login'
 import './App.css'
 
 
 function App(){
   return(
     <>
-    <Registeration/>
+    <Login/>
     </>
   )
 }
