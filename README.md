@@ -13,7 +13,7 @@ This repository contains the frontend code for the Hornet platform, built with R
 
 1. Clone the repository
    ```sh
-   git clone https://github.com/hornet-platform/frontend
+   git clone https://github.com/hornet-platform/Front-End.git
 
 2. Navigate to the project directory
     ```sh

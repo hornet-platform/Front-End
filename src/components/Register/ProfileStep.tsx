@@ -6,27 +6,16 @@ import {
   import { PhoneInput } from 'react-international-phone';
   import 'react-international-phone/style.css';   
   import {
-    Button,
-    Checkbox,
     DatePicker,
     Form,
-    Input,Flex,
-    InputNumber,
-    Radio,
+    Input,
     Select,
-    Upload,
     Row,
     Col,
-    Divider,
-    Steps,
-    message,
   } from "antd";
-  import ImgCrop from "antd-img-crop";
   import React, { useState, FC } from "react";
   import type { FormInstance } from "antd/es/form";
-  import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
   import styles from "./RegisterLayout.module.css";
-  import moment, { Moment } from 'moment';
   // import './customStyle.css';
   
 
