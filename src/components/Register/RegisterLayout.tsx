@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Form, Steps, Row, Col, Divider, message } from "antd";
+import { Button, Form, Steps, Row, Col, Divider } from "antd";
 import { UserOutlined, SolutionOutlined } from "@ant-design/icons";
 import ProfileStep from './ProfileStep';
-import RegisterLayoutFirstStep from './RegisterLayoutFirstStep';
+// import RegisterLayoutFirstStep from './RegisterLayoutFirstStep';
 // import { RegisterForm } from "./RegisterForm";
 import styles from "./RegisterLayout.module.css";
 
@@ -42,7 +42,8 @@ const RegisterLayout: React.FC = () => {
   const [form] = Form.useForm();
 
   const steps = [
-    <RegisterLayoutFirstStep form={form} />,
+    // <RegisterLayoutFirstStep form={form} />,
+    <div>first step</div>,
     <ProfileStep form={form} />,
   ];
 

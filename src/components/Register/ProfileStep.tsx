@@ -1,8 +1,3 @@
-import {
-    UserOutlined,
-    SolutionOutlined,
-    CameraOutlined,
-  } from "@ant-design/icons";
   import { PhoneInput } from 'react-international-phone';
   import 'react-international-phone/style.css';   
   import {
