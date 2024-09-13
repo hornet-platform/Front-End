@@ -1,118 +1,166 @@
-import Style from './registration.module.css';
-import React ,{useState} from "react";
-import {Form ,Steps ,Divider} from 'antd'
-import { 
-    UserOutlined,
-    SolutionOutlined,
-} from "@ant-design/icons";
-import RegistrationStep , { FieldType } from "./RegistrationStep";
-import ProfileStep from './ProfileStep';
+import {PhoneInput} from 'react-international-phone';
+import 'react-international-phone/style.css';
+import {
+    DatePicker,
+    Form,
+    Input,
+    Select,
+    Row,
+    Col,
+} from "antd";
+import React, {useState} from "react";
+import type {FormInstance} from "antd/es/form";
+import styles from "./RegisterLayout.module.css";
 
+const {TextArea} = Input;
+const {Option} = Select;
 
+interface ProfileStepProps {
+    form: FormInstance<any>;
+}
 
+const ProfileStep: React.FC<ProfileStepProps> = () => {
 
-const Registeration: React.FC = () => {
-    const [currentStep, setCurrentStep] = useState<number>(0);
-    const [formInstance] = Form.useForm<FieldType>();  
+    const [phone, setPhone] = useState('');
 
+    const universities =
+        ['Zagazig', 'Mansoura', 'Banha', 'BUE', 'Ain Shams', 'Assiut', 'AUC', 'Cairo', 'Alexandria', 'FUE', 'Al-Azhar'
+            , 'Helwan', 'Fayoum', 'Beni-Suef', 'Aswan', 'Tanta', 'Kafrelsheikh', 'Egypt-Japan University of Science and Technology', 'GUC'
+            , 'Nile University', 'MIU', 'Minia',
+        ];
 
-    console.log(formInstance)
-    
-
-
-    const handleStep =async (e: React.MouseEvent<HTMLButtonElement>) => {
-        const buttonName = e.currentTarget.name
-        console.log(buttonName)
-        e.preventDefault(); 
-
-        try {
-            if(buttonName === 'next'){
-                await formInstance.validateFields() 
-                setCurrentStep(prevStep => prevStep + 1);
-            }
-        } catch (err) {
-            console.log('Validation failed:', err);
-        }
-        if(buttonName === 'previous'){
-            setCurrentStep(prevStep => prevStep - 1);
-        }
-    };
-
-
-    
-
+    const graduationYears = Array.from({length: 11}, (_, i) => 2020 + i);
 
     return (
         <>
-            <div className={Style.back}>
-            <div className={`${Style.circle} ${Style.circle1}`}></div>
-            <div className={`${Style.circle} ${Style.circle2}`}></div>
-            <div className={`${Style.circle} ${Style.circle3}`}></div>
-            <div className={`${Style.circle} ${Style.circle4}`}></div>
-            <div className={`${Style.circle} ${Style.circle5}`}></div>
-        </div>
-        <Form
-            name="registeration"
-            form={formInstance}
-            initialValues={{ remember: true }}
-            className={Style.form}
-            layout="vertical"
-            style={{
-                maxWidth: 500,
-                margin: 'auto',
-                alignSelf: "center",
-                padding: 40,
-                paddingBottom: 40,
-                boxShadow: "0 0 12px #ccc",
-                borderRadius: 12,
-            }}
-
-        >
-            <Divider
-            orientation="center"
-            plain
-            style={{
-                borderBlockColor: "#0077fd",
-                fontSize: 25,
-            }}
+            <Form.Item
+                style={{color: '#fff'}}
+                name="first_name"
+                label={<label>First Name</label>}
+                rules={[{required: true, message: 'Please enter your first name'},
+                    {min: 3, message: 'at least 3 characters long'}]}
             >
-            IEEE
-            </Divider>
+                <Input placeholder="Enter your first name" className={styles.customInput}/>
+            </Form.Item>
 
-            <Steps
-            current={currentStep} 
-            items={[
-                {
-                title: "Register",
-                status: currentStep == 0 ? "finished" : "done",
-                icon: <UserOutlined />,
-                },
-                {
-                title: "Profile",
-                status: currentStep == 1 ? "finished" : "wait",
-                icon: <SolutionOutlined />,
-                },
-            ]}
-            style={{
-                marginBottom: 25,
-            }}
-            />
+            <Form.Item
+                label={<label>Last Name</label>}
+                name="last_name"
+                rules={[{required: true, message: 'Please enter your last name'},
+                    {min: 3, message: 'at least 3 characters long'}
+                ]}
+            >
+                <Input placeholder="Enter your last name" className={styles.customInput}/>
+            </Form.Item>
 
-            { currentStep === 0 &&                  
-                (
-                <RegistrationStep nextStep={handleStep} form={formInstance} />
-                
+            <Form.Item
+                name="bio"
+                label={<label>Bio</label>}
+                rules={[{required: true, message: 'Please enter your bio'},
+                    {min: 10, message: 'bio must be at least 10 characters long'}
+                ]}
+            >
+                <TextArea rows={4}
+                          showCount
+                          maxLength={100}
+                          className={styles.customBio}
+                          placeholder="Write a short bio about yourself" style={{height: 60, resize: 'none'}}/>
+            </Form.Item>
+            <Col span={24}>
+                <Form.Item
+                    label={<label>Phone Number</label>}
+                    className="custom-phone-field"
+                    name="phone_number"
+                    rules={[{required: true, message: 'Please enter your phone number'}]}>
+                    <PhoneInput
+                        defaultCountry="eg"
+                        value={phone}
+                        style={{
+                            border: 'none',
+                            outline: 'none',
+                            width: '100%',
+                        }}
+                        onChange={(phone) => {
+                            setPhone(phone);
+                            console.log("hi");
+                        }}
+                    />
+                </Form.Item>
+            </Col>
+            <Form.Item
+                name="birthdate"
+                label={<label>Birth date</label>}
+                rules={[{required: true, message: 'Please select your birth date'}, {
+                    validator: (_, value) =>
+                        value && value.year() > 2020
+                            ? Promise.reject(new Error('You cannot be this young!'))
+                            : Promise.resolve(),
+                },]}
+            >
+                <DatePicker style={{width: '100%'}} className={styles.customInput} placeholder="birth date"
+                            onChange={(date) => {
+                                console.log(date);
+                            }}
+                />
+            </Form.Item>
 
-            )}  
-            { currentStep === 1 &&                  
-                (<ProfileStep previousStep={handleStep}  form={formInstance}/>
-            )}      
-        </Form>
+            <Form.Item
+                label={<label>University</label>}
+                name="university"
+                rules={[{required: true, message: 'Please select your university'}]}
+            >
+                <Select placeholder="Select your university"
+                        showSearch
+                        filterOption={(input, option) =>
+                            typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                        }
+                        className={styles.selectCustom}
+                >
+                    {universities.map((uni) => (
+                        <Option key={uni} value={uni}>
+                            {uni}
+                        </Option>
+                    ))}
+                </Select>
+            </Form.Item>
+
+            <Row>
+                <Form.Item
+                    name="faculty"
+                    rules={[{required: true, message: 'Please enter your faculty'}]}
+                    style={{marginRight: 5}}
+                >
+                    <Input placeholder="faculty" className={styles.customAlign}/>
+                </Form.Item>
+                <Form.Item
+                    name="faculty_department"
+                    rules={[{required: true, message: 'Please enter your faculty department'}]}
+                >
+                    <Input placeholder="faculty department" className={styles.customAlign}/>
+                </Form.Item>
+            </Row>
+
+            <Form.Item
+                label={<label>Graduation Year</label>}
+                name="graduation_year"
+                rules={[{required: true, message: 'Please select your graduation year'}]}
+            >
+                <Select
+                    placeholder="Select your graduation year"
+                    showSearch
+                    filterOption={(input, option) =>
+                        typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                    }
+                    className={styles.customSelect}>
+                    {graduationYears.map((year) => (
+                        <Option key={year} value={year}>
+                            {year}
+                        </Option>
+                    ))}
+                </Select>
+            </Form.Item>
         </>
+    );
+};
 
-    )
-}
-
-
-export default Registeration
-
+export default ProfileStep;

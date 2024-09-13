@@ -1,4 +1,4 @@
-import { useState, ReactElement } from "react";
+import { useState } from "react";
 
 interface UserData {
     username: string;
@@ -47,19 +47,23 @@ const handleSubmit = async (values: UserData): Promise<void> => {
     const birthDate = values.birthdate 
     ? new Date(values.birthdate.toString()).toISOString() 
     : new Date().toISOString();
-  const userData: UserData = {
+  const userData: {
+      password: string;
+      birthdate: string;
+      university: string;
+      bio: string;
+      email: string;
+      username: string;
+      faculty: string
+  } = {
     username: values.username,
     email: values.email,
     password: values.password,
     bio: values.bio,
-    first_name:values.firstName,
-    last_name: values.lastName,
-    phone_number: values.phone,
     birthdate : birthDate, 
     university: values.university,
     faculty: values.faculty,
-    faculty_department: values.facultyDepartment,
-    graduation_year: values.graduationYear,
+
   };
     console.log('Form values:', values);
     console.log(userData)
